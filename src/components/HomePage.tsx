@@ -131,49 +131,75 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-warm-50 via-petal-50 to-lavender-50 relative overflow-hidden">
+      {/* 装饰性背景元素 */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-petal-200/30 rounded-full blur-3xl animate-pulse-gentle"></div>
+        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-lavender-200/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-warm-200/25 rounded-full blur-3xl animate-pulse-gentle" style={{animationDelay: '1s'}}></div>
+      </div>
+
       {/* 通知提示 */}
       {showNotification && (
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg"
+          className="fixed top-4 right-4 z-50 bg-gradient-to-r from-petal-400 to-petal-500 text-white px-6 py-3 rounded-2xl shadow-float backdrop-blur-sm"
         >
-          情绪记录已保存！
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+            <span>情绪记录已保存</span>
+          </div>
         </motion.div>
       )}
 
       {/* 页面内容 */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentPage}
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          className="pb-20"
-        >
-          {renderCurrentPage()}
-        </motion.div>
-      </AnimatePresence>
+      <div className="relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="pb-20"
+          >
+            {renderCurrentPage()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* 底部导航 */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200">
-        <div className="flex justify-around items-center h-16">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-warm-200 shadow-gentle">
+        <div className="flex justify-around items-center h-16 max-w-md mx-auto">
           {navItems.map((item) => (
-            <button
+            <motion.button
               key={item.key}
               onClick={() => setCurrentPage(item.key)}
-              className={`flex flex-col items-center justify-center w-full h-full transition-colors ${
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex flex-col items-center justify-center w-full h-full transition-all duration-300 relative ${
                 currentPage === item.key
-                  ? 'text-purple-600'
-                  : 'text-gray-600 hover:text-purple-600'
+                  ? 'text-petal-600'
+                  : 'text-sky-600 hover:text-petal-600'
               }`}
             >
-              <item.icon className="w-5 h-5 mb-1" />
-              <span className="text-xs">{item.label}</span>
-            </button>
+              <motion.div
+                animate={currentPage === item.key ? { scale: [1, 1.1, 1] } : {}}
+                transition={{ duration: 0.3 }}
+                className="relative"
+              >
+                <item.icon className="w-5 h-5 mb-1" />
+                {currentPage === item.key && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-petal-500 rounded-full"
+                  />
+                )}
+              </motion.div>
+              <span className="text-xs font-medium">{item.label}</span>
+            </motion.button>
           ))}
         </div>
       </nav>
@@ -186,9 +212,12 @@ export default function HomePage() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsAIAssistantOpen(true)}
-          className="fixed bottom-24 right-4 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors z-40"
+          className="fixed bottom-24 right-4 bg-gradient-to-r from-lavender-500 to-petal-500 text-white p-4 rounded-2xl shadow-float backdrop-blur-sm hover:shadow-warm transition-all duration-300 z-40"
         >
-          <Bot className="w-6 h-6" />
+          <div className="relative">
+            <Bot className="w-6 h-6" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-petal-400 rounded-full animate-pulse"></div>
+          </div>
         </motion.button>
       )}
 

@@ -76,41 +76,63 @@ const EmotionInput = ({ onEmotionSubmitted }: EmotionInputProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-gentle p-6 max-w-2xl mx-auto"
+      className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-warm p-8 max-w-2xl mx-auto border border-warm-200"
     >
-      <div className="text-center mb-6">
+      <div className="text-center mb-8">
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="inline-flex items-center space-x-2 mb-2"
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="inline-flex items-center space-x-3 mb-4"
         >
-          <Heart className="w-6 h-6 text-pink-400" />
-          <h2 className="text-2xl font-semibold text-gray-800">分享你的心情</h2>
+          <div className="relative">
+            <Heart className="w-8 h-8 text-petal-400 drop-shadow-sm" />
+            <div className="absolute inset-0 bg-petal-400/20 rounded-full blur-lg"></div>
+          </div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-petal-600 to-lavender-600 bg-clip-text text-transparent">
+            分享你的心情
+          </h2>
         </motion.div>
-        <p className="text-gray-600">在这里记录你的情绪，让心灵得到释放</p>
+        <p className="text-sky-600 text-lg leading-relaxed">在这里记录你的情绪，让心灵得到温柔的释放</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {/* 情绪选择 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-base font-semibold text-sky-700 mb-4">
             选择你的情绪
           </label>
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-3">
             {emotionTypes.map((emotion) => (
               <motion.button
                 key={emotion}
                 type="button"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedEmotion(emotion)}
-                className={`p-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`p-4 rounded-2xl text-sm font-medium transition-all duration-300 relative overflow-hidden ${
                   selectedEmotion === emotion
-                    ? 'bg-sky-100 text-sky-700 ring-2 ring-sky-300'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                    ? 'bg-gradient-to-br from-petal-100 to-petal-200 text-petal-800 ring-2 ring-petal-300 shadow-soft'
+                    : 'bg-white/60 text-sky-700 hover:bg-white/80 hover:shadow-soft border border-warm-200'
                 }`}
               >
+                <div className={`w-2 h-2 rounded-full mb-1 mx-auto ${
+                  emotion === 'happy' ? 'bg-yellow-400' :
+                  emotion === 'sad' ? 'bg-blue-400' :
+                  emotion === 'angry' ? 'bg-red-400' :
+                  emotion === 'anxious' ? 'bg-purple-400' :
+                  emotion === 'calm' ? 'bg-green-400' :
+                  emotion === 'love' ? 'bg-pink-400' :
+                  emotion === 'excited' ? 'bg-orange-400' :
+                  emotion === 'tired' ? 'bg-gray-400' :
+                  emotion === 'grateful' ? 'bg-indigo-400' : 'bg-yellow-400'
+                }`}></div>
                 {EMOTION_LABELS[emotion]}
+                {selectedEmotion === emotion && (
+                  <motion.div
+                    layoutId="selectedEmotion"
+                    className="absolute inset-0 bg-petal-400/10 rounded-2xl"
+                  />
+                )}
               </motion.button>
             ))}
           </div>
@@ -118,16 +140,16 @@ const EmotionInput = ({ onEmotionSubmitted }: EmotionInputProps) => {
 
         {/* 文本输入 */}
         <div>
-          <label htmlFor="emotion-text" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="emotion-text" className="block text-base font-semibold text-sky-700 mb-3">
             描述你的感受
           </label>
           <textarea
             id="emotion-text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="今天发生了什么？你的感受如何？"
-            className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-300 focus:border-sky-300 resize-none transition-all duration-200"
-            rows={4}
+            rows={5}
+            className="w-full px-5 py-4 border-2 border-warm-200 rounded-2xl focus:ring-3 focus:ring-petal-300 focus:border-petal-400 resize-none transition-all duration-300 bg-white/90 backdrop-blur-sm text-gray-700 placeholder-warm-400 shadow-soft focus:shadow-gentle"
+            placeholder="今天发生了什么？你的感受如何？在这里倾诉你的心声..."
             required
           />
         </div>
@@ -136,79 +158,51 @@ const EmotionInput = ({ onEmotionSubmitted }: EmotionInputProps) => {
         <motion.button
           type="submit"
           disabled={isSubmitting || !text.trim()}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-gradient-to-r from-sky-400 to-pink-300 text-white py-3 px-6 rounded-xl font-medium shadow-soft hover:shadow-gentle transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          className="w-full bg-gradient-to-r from-petal-400 via-petal-500 to-lavender-500 text-white py-4 px-8 rounded-2xl font-semibold text-lg shadow-warm hover:shadow-gentle transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden flex items-center justify-center space-x-3"
         >
           {isSubmitting ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              <span>分析中...</span>
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span>正在记录...</span>
             </>
           ) : (
             <>
-              <Send className="w-4 h-4" />
-              <span>分享心情</span>
+              <span>记录心情</span>
+              <Heart className="w-5 h-5" />
             </>
+          )}
+          {!isSubmitting && (
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
           )}
         </motion.button>
       </form>
 
-      {/* 感谢界面 */}
+      {/* 感谢动画 */}
       {showThankYou && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+          exit={{ opacity: 0, scale: 0.5 }}
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black/20 backdrop-blur-sm"
         >
           <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-            className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl border border-pink-100"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 0.6, repeat: 2 }}
+            className="bg-gradient-to-br from-white/95 to-warm-50/95 rounded-3xl p-10 text-center shadow-2xl border border-warm-200 backdrop-blur-lg"
           >
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              className="w-20 h-20 bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+            <motion.div 
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 1, repeat: 2 }}
+              className="text-7xl mb-6"
             >
-              <Heart className="w-10 h-10 text-white" />
+              🙏
             </motion.div>
-            <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-2xl font-bold text-gray-800 mb-3"
-            >
-              谢谢你的分享
-            </motion.h3>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-gray-600 text-lg leading-relaxed"
-            >
-              你的情绪已经被温柔地记录下来了
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="mt-6 flex justify-center space-x-2"
-            >
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.9 + i * 0.1, type: "spring" }}
-                  className="w-2 h-2 bg-pink-400 rounded-full"
-                />
-              ))}
-            </motion.div>
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-petal-600 to-lavender-600 bg-clip-text text-transparent mb-3">
+              感谢分享
+            </h3>
+            <p className="text-sky-600 text-lg leading-relaxed">你的心声已被温柔记录，愿每一天都充满温暖与力量</p>
           </motion.div>
         </motion.div>
       )}

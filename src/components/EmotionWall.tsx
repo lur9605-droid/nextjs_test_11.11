@@ -43,18 +43,21 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12"
+        className="text-center py-16"
       >
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-gentle p-8 max-w-md mx-auto">
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-warm p-10 max-w-md mx-auto border border-warm-200">
           <motion.div
             animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-16 h-16 bg-gradient-to-br from-sky-200 to-pink-200 rounded-full flex items-center justify-center mx-auto mb-4"
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-20 h-20 bg-gradient-to-br from-petal-200 to-lavender-200 rounded-full flex items-center justify-center mx-auto mb-6"
           >
-            <Heart className="w-8 h-8 text-pink-400" />
+            <Heart className="w-10 h-10 text-petal-500 drop-shadow-sm" />
+            <div className="absolute inset-0 bg-petal-300/20 rounded-full blur-lg"></div>
           </motion.div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">还没有情绪记录</h3>
-          <p className="text-gray-600">开始记录你的第一个情绪吧！</p>
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-petal-600 to-lavender-600 bg-clip-text text-transparent mb-3">
+            还没有情绪记录
+          </h3>
+          <p className="text-sky-600 text-lg leading-relaxed">开始记录你的第一个情绪吧，让美好从这里开始！</p>
         </div>
       </motion.div>
     );
@@ -66,26 +69,35 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-soft p-4"
+        className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-warm p-6 border border-warm-200"
       >
-        <div className="flex items-center space-x-2 mb-3">
-          <Filter className="w-4 h-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">筛选情绪</span>
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="relative">
+            <Filter className="w-5 h-5 text-sky-600" />
+            <div className="absolute inset-0 bg-sky-400/20 rounded-full blur"></div>
+          </div>
+          <span className="text-base font-semibold text-sky-700">筛选情绪</span>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           {emotionTypes.map((emotion) => (
             <motion.button
               key={emotion}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter(emotion)}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 relative overflow-hidden ${
                 filter === emotion
-                  ? 'bg-sky-100 text-sky-700 ring-2 ring-sky-300'
-                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                  ? 'bg-gradient-to-br from-petal-100 to-petal-200 text-petal-800 ring-2 ring-petal-300 shadow-soft'
+                  : 'bg-white/60 text-sky-700 hover:bg-white/80 hover:shadow-soft border border-warm-200'
               }`}
             >
               {emotion === 'all' ? '全部' : EMOTION_LABELS[emotion]}
+              {filter === emotion && (
+                <motion.div
+                  layoutId="selectedFilter"
+                  className="absolute inset-0 bg-petal-400/10 rounded-2xl"
+                />
+              )}
             </motion.button>
           ))}
         </div>
@@ -114,8 +126,8 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
               }}
               onHoverStart={() => setHoveredId(entry.id)}
               onHoverEnd={() => setHoveredId(null)}
-              className={`relative bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg border border-white/30 hover:shadow-xl transition-all duration-300 cursor-pointer ${
-                hoveredId === entry.id ? 'shadow-gentle' : ''
+              className={`relative bg-white/90 backdrop-blur-lg rounded-3xl shadow-warm border border-warm-200 hover:shadow-gentle transition-all duration-300 cursor-pointer overflow-hidden ${
+                hoveredId === entry.id ? 'shadow-gentle scale-105' : ''
               }`}
             >
               <motion.div 
@@ -126,27 +138,27 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
               >
                 {/* 情绪标签 */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-4">
                     <motion.div 
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md ${EMOTION_COLORS[entry.emotion]}`}
+                      className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-soft ${EMOTION_COLORS[entry.emotion]}`}
                     >
                       {EMOTION_EMOJIS[entry.emotion]}
                     </motion.div>
                     <div>
-                      <h3 className="font-bold text-gray-800 text-lg">
+                      <h3 className="font-bold text-sky-800 text-xl mb-1">
                         {EMOTION_LABELS[entry.emotion]}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-sky-600 font-medium">
                         {formatDate(entry.timestamp)}
                       </p>
                     </div>
                   </div>
                   <motion.button
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleDelete(entry.id)}
-                    className="p-2 text-gray-400 hover:text-red-500 transition-all duration-200 rounded-full hover:bg-red-50"
+                    className="p-3 text-warm-400 hover:text-red-500 transition-all duration-300 rounded-full hover:bg-red-50/80 backdrop-blur-sm"
                   >
                     <Trash2 className="w-5 h-5" />
                   </motion.button>
@@ -157,7 +169,7 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 + 0.4 }}
-                  className="text-gray-700 mb-4 leading-relaxed text-base"
+                  className="text-gray-700 mb-4 leading-relaxed text-base bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-warm-100"
                 >
                   {entry.text}
                 </motion.p>
@@ -183,16 +195,16 @@ const EmotionWall = ({ entries, onEntriesUpdate }: EmotionWallProps) => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute -bottom-2 left-6 right-6 bg-gradient-to-r from-sky-100 to-pink-100 text-sky-700 text-xs p-3 rounded-2xl shadow-soft border border-sky-200 z-10"
+                  className="absolute -bottom-2 left-6 right-6 bg-gradient-to-r from-petal-100 to-lavender-100 text-petal-700 text-sm p-4 rounded-2xl shadow-gentle border border-petal-200 z-10 backdrop-blur-sm"
                 >
-                  <div className="flex items-start space-x-2">
+                  <div className="flex items-start space-x-3">
                     <motion.div
-                      whileHover={{ scale: 1.2 }}
+                      whileHover={{ scale: 1.2, rotate: 15 }}
                       className="flex-shrink-0"
                     >
-                      <Sparkles className="w-3 h-3 mt-0.5" />
+                      <Sparkles className="w-4 h-4 mt-0.5 text-petal-500" />
                     </motion.div>
-                    <span>{getComfortMessage(entry.emotion)}</span>
+                    <span className="font-medium">{getComfortMessage(entry.emotion)}</span>
                   </div>
                 </motion.div>
               )}

@@ -8,56 +8,92 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   
-  /* 自定义颜色 */
-  --color-sky-50: #f0f9ff;
-  --color-sky-100: #e0f2fe;
-  --color-sky-200: #bae6fd;
-  --color-sky-300: #7dd3fc;
-  --color-sky-400: #38bdf8;
-  --color-sky-500: #0ea5e9;
+  /* 温暖治愈的色彩系统 */
+  --color-warm-50: #fefcf8;
+  --color-warm-100: #fdf8f0;
+  --color-warm-200: #faf0e0;
+  --color-warm-300: #f5e4c8;
+  --color-warm-400: #eed4a3;
+  --color-warm-500: #e5c078;
+  --color-warm-600: #d4a853;
+  --color-warm-700: #c19642;
+  --color-warm-800: #9e7b38;
+  --color-warm-900: #7c6230;
   
-  --color-cream-50: #fefdf8;
-  --color-cream-100: #fef9f0;
-  --color-cream-200: #fdf2e4;
-  --color-cream-300: #fbe8d0;
-  --color-cream-400: #f8d8b0;
+  /* 柔和的天空色系 */
+  --color-sky-50: #f8fafc;
+  --color-sky-100: #f1f5f9;
+  --color-sky-200: #e2e8f0;
+  --color-sky-300: #cbd5e1;
+  --color-sky-400: #94a3b8;
+  --color-sky-500: #64748b;
+  --color-sky-600: #475569;
+  --color-sky-700: #334155;
+  --color-sky-800: #1e293b;
+  --color-sky-900: #0f172a;
   
-  --color-pink-50: #fdf2f8;
-  --color-pink-100: #fce7f3;
-  --color-pink-200: #fbcfe8;
-  --color-pink-300: #f9a8d4;
-  --color-pink-400: #f472b6;
-  --color-pink-500: #ec4899;
+  /* 温柔的粉色系 */
+  --color-petal-50: #fdf8f6;
+  --color-petal-100: #fce8e3;
+  --color-petal-200: #f9d5cc;
+  --color-petal-300: #f4b8a4;
+  --color-petal-400: #ed8f6f;
+  --color-petal-500: #e76f51;
+  --color-petal-600: #d45d3f;
+  --color-petal-700: #b24c34;
+  --color-petal-800: #92412d;
+  --color-petal-900: #783a29;
   
-  /* 情绪颜色 */
+  /* 薰衣草色系 */
+  --color-lavender-50: #f8fafb;
+  --color-lavender-100: #f2f4f7;
+  --color-lavender-200: #e6e9f0;
+  --color-lavender-300: #d1d6e4;
+  --color-lavender-400: #b3bad1;
+  --color-lavender-500: #8e96b7;
+  --color-lavender-600: #707a9a;
+  --color-lavender-700: #5d6781;
+  --color-lavender-800: #4d556b;
+  --color-lavender-900: #424958;
+  
+  /* 情绪颜色 - 更柔和的版本 */
   --color-happy: #fbbf24;
   --color-sad: #60a5fa;
   --color-angry: #f87171;
   --color-anxious: #c084fc;
   --color-calm: #34d399;
+  --color-love: #f472b6;
   --color-excited: #fb923c;
   --color-tired: #9ca3af;
-  --color-grateful: #f472b6;
+  --color-grateful: #a78bfa;
+  --color-confused: #fbbf24;
   
-  /* 自定义阴影 */
-  --shadow-soft: 0 4px 20px -1px rgba(0, 0, 0, 0.1), 0 2px 10px -1px rgba(0, 0, 0, 0.06);
-  --shadow-gentle: 0 8px 30px -3px rgba(0, 0, 0, 0.1), 0 4px 15px -2px rgba(0, 0, 0, 0.05);
+  /* 渐变背景 */
+  --gradient-warm: linear-gradient(135deg, #fefcf8 0%, #fdf8f0 50%, #faf0e0 100%);
+  --gradient-sky: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  --gradient-petal: linear-gradient(135deg, #fdf8f6 0%, #fce8e3 50%, #f9d5cc 100%);
+  --gradient-lavender: linear-gradient(135deg, #f8fafb 0%, #f2f4f7 50%, #e6e9f0 100%);
+  
+  /* 自定义阴影 - 更柔和的版本 */
+  --shadow-soft: 0 4px 20px -1px rgba(0, 0, 0, 0.08), 0 2px 10px -1px rgba(0, 0, 0, 0.04);
+  --shadow-gentle: 0 8px 30px -3px rgba(0, 0, 0, 0.08), 0 4px 15px -2px rgba(0, 0, 0, 0.03);
+  --shadow-warm: 0 10px 25px -3px rgba(245, 228, 200, 0.3), 0 4px 12px -2px rgba(245, 228, 200, 0.2);
+  --shadow-float: 0 20px 40px -8px rgba(0, 0, 0, 0.12), 0 8px 20px -4px rgba(0, 0, 0, 0.08);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f1f5f9;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
 }
 
 /* 自定义动画 */
@@ -76,6 +112,21 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -86,4 +137,19 @@ body {
 
 .animate-slide-up {
   animation: slide-up 0.5s ease-out;
+}
+
+.animate-pulse-gentle {
+  animation: pulse-gentle 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
 }
