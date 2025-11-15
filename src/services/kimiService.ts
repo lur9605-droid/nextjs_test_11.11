@@ -1,6 +1,6 @@
 import { EmotionType, EMOTION_LABELS } from '@/types/emotion';
 
-const API_KEY = 'sk-fdEQlO37MFEJyN2jGZK28YWIHr0BSSNBvMBdjxOOORqzWJao';
+const API_KEY = process.env.KIMI_API_KEY || process.env.NEXT_PUBLIC_KIMI_API_KEY;
 const API_URL = 'https://api.moonshot.cn/v1/chat/completions';
 
 interface KimiResponse {
@@ -17,6 +17,12 @@ export const generateAIResponse = async (
   isConversation: boolean = false
 ): Promise<string> => {
   try {
+    // 检查API密钥是否配置
+    if (!API_KEY) {
+      console.error('Kimi API密钥未配置，请在.env.local文件中设置KIMI_API_KEY或NEXT_PUBLIC_KIMI_API_KEY');
+      return getDefaultComfortMessage(emotion);
+    }
+
     const emotionLabel = EMOTION_LABELS[emotion];
     
     let prompt: string;
